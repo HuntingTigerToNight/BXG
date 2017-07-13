@@ -53,6 +53,10 @@ a:focus {
   overflow: hidden;
   border: 3px solid rgba(255, 255, 255, 0.3);
 }
+.aside .profile .avatar img{
+  width:80px;
+  height:80px;
+}
 .aside .profile h4 {
   color: #a9b0c2;
   font-size: 16px;
@@ -98,7 +102,7 @@ a:focus {
   margin-left: -195px;
   position: fixed;
   top: 0;
-  z-index: 99;
+  z-index: 1;
 }
 .main .header .navbar-custom {
   padding-right: 15px;

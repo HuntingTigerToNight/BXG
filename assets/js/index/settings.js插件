@@ -1,0 +1,103 @@
+/**
+ * 功能1上传图片
+ * 功能2省市三联动
+ * 
+ * 
+*/
+require(['/bxg/assets/js/config.js','/bxg/assets/js/common.js'],function(){
+  require(['jquery','uploader'],function($,WebUploader){
+
+    //获取个人资料并展示
+    var $province=$('select[name="tc_province"]'),
+        $city=$('select[name="tc_city"]'),
+        $district=$('select[name="tc_district"]');
+    options={
+      url:'/api/teacher/profile',
+      type:'get',
+      success:function(info){
+        if(info.code===200){
+          console.log(info);
+          var obj=info.result;
+          $('input[name="tc_roster"]').val(obj.tc_roster);
+          $($('input[name="tc_gender"]')[obj.tc_roster]).attr('checked',true);
+          $('input[name="tc_birthday"]').val(obj.tc_birthday);
+          $province.val(obj.tc_province);
+          $('input[name="tc_cellphone"]').val(obj.tc_cellphone);
+          $('input[name="tc_email"]').val(obj.tc_email);
+          $('input[name="tc_join_date"]').val(obj.tc_join_date);
+          $('textarea[name="tc_introduce"]').val(obj.tc_introduce);
+        }
+      }
+    }
+    $.ajax(options);
+
+    //上传图片
+    uploadPictures();
+    function uploadPictures(){
+      //初始化Web Uploader
+      var uploader = WebUploader.create({
+        // 选完文件后，是否自动上传。
+        auto: true,
+        // swf文件路径
+        swf: '/bxg/node_modules/webuploader/dist/Uploader.swf',
+        // 文件接收服务端。
+        server: '/api/uploader/avatar',
+        // 选择文件的按钮。可选。
+        // 内部根据当前运行是创建，可能是input元素，也可能是flash.
+        pick: '#filePicker',
+        fileVal:'tc_avatar',
+        // 只允许选择图片文件。
+        accept: {
+            title: 'Images',
+            extensions: 'gif,jpg,jpeg,bmp,png',
+            mimeTypes: 'image/*'
+        }
+      })
+      uploader.on( 'uploadSuccess', function(xxx, info ) {
+        console.log(arguments);
+        $('.preview img').attr('src',info.result.path);
+      });
+    }
+
+    //省市三联动
+    $.ajax({
+      url:'/bxg/assets/region.json',
+      success:function(info){
+        console.log(info);
+        var p=info['p']['000000'];
+        var str='';
+        for(var key in p){
+          str +=`<option value="${key}">${p[key]}</option>`;
+        }
+        $province.html(str);
+        optionsLink(info);
+      }
+    })
+
+    function optionsLink(info){
+      var c=info['c'];
+      var d=info['d'];
+      getOptions($province,$city,c);
+      getOptions($city,$district,d);
+      $province.on('change',function(){
+        getOptions($province,$city,c);
+        getOptions($city,$district,d);
+      });
+      $city.on('change',function(){
+        getOptions($city,$district,d);
+      });
+      //获取每个下拉框
+      function getOptions(select1,select2,level){
+        var str='';
+        var val=select1.val();
+        console.log(val);
+        var obj=level[val];
+        console.log(obj);
+        for(var key in obj){
+          str +=`<option value="${key}">${obj[key]}</option>`
+        }
+        select2.html(str);
+      }
+    }
+  })
+})

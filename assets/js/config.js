@@ -1,0 +1,29 @@
+
+
+//模块配置
+require.config({
+  //配置基础路径
+  baseUrl:'/bxg/node_modules',
+  //配置别名
+  paths:{
+    jquery:'./jquery/dist/jquery',
+    cookie:'./jquery.cookie/jquery.cookie',
+    nprogress:'./nprogress/nprogress',
+    template:'./art-template/lib/template-web',
+    bootstrap:'./bootstrap/dist/js/bootstrap',
+    datepicker:'./bootstrap-datepicker/dist/js/bootstrap-datepicker',
+    validate:'./jquery-validation/dist/jquery.validate',
+    form:'./jquery-form/dist/jquery.form.min',
+    Chinese:'./bootstrap-datepicker/dist/locales/bootstrap-datepicker.zh-CN.min',
+    uploader:'./webuploader/dist/webuploader'
+  },
+  //配置shim
+  shim:{
+    bootstrap:{
+      deps:['jquery']
+    },
+    Chinese:{
+      deps:['jquery','datepicker']
+    }
+  }
+})

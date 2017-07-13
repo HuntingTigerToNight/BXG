@@ -14,5 +14,14 @@
     "font-awesome": "^4.7.0",
     "jquery": "^1.12.4",
     "nprogress": "^0.2.0"
-  }
+  },
+  "devDependencies": {},
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/huoqishi/bxg-template.git"
+  },
+  "bugs": {
+    "url": "https://github.com/huoqishi/bxg-template/issues"
+  },
+  "homepage": "https://github.com/huoqishi/bxg-template#readme"
 }
